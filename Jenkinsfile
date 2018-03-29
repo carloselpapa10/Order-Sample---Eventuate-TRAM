@@ -24,7 +24,6 @@ stages {
 					    -p 27017:27017 \
 					    -e MONGO_DATA_DIR=/data/db \
 					    -e MONGO_LOG_DIR=/dev/null \
-					    -v ./data/db:/data/db \
 					    eventuateio/eventuateio-local-zookeeper:0.14.0'
 				}
 			}
