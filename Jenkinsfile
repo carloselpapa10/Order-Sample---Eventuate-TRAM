@@ -3,7 +3,41 @@ pipeline {
     tools { 
         maven 'maven-3' 
     }
-stages { 
+stages {
+	stage('Building Projects') {
+		agent any
+	     	steps {
+			sh 'mvn clean package'
+		}
+	}
+	stage('Dockerize projects') {
+		parallel {
+			stage('Customer Service') {
+				agent any
+				steps {
+					sh 'mvn -f customer-service/pom.xml docker:build'
+				}
+			}
+			stage('Invoice Service') {
+				agent any
+				steps {
+					sh 'mvn -f invoice-service/pom.xml docker:build'
+				}
+			}
+			stage('Order Service') {
+				agent any
+				steps {
+					sh 'mvn -f order-service/pom.xml docker:build'
+				}
+			}
+			stage('Order View Service') {
+				agent any
+				steps {
+					sh 'mvn -f order-view-service/ docker:build'
+				}
+			}
+		}
+	}
 	stage('Database') {
 		parallel {
 			stage('MySql') {
