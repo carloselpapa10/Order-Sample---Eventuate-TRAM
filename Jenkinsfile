@@ -12,9 +12,9 @@ stages {
 					sh 'docker run -d \
 					    --name mongodb \
 					    -p 3306:3306 \
-					    -e MYSQL_ROOT_PASSWORD=rootpassword
-					    -e MYSQL_USER=mysqluser
-					    -e MYSQL_PASSWORD=mysqlpw
+					    -e MYSQL_ROOT_PASSWORD=rootpassword \
+					    -e MYSQL_USER=mysqluser \
+					    -e MYSQL_PASSWORD=mysqlpw \
 					    eventuateio/eventuate-tram-sagas-mysql:0.3.0.RELEASE'
 				}
 			}
@@ -24,9 +24,9 @@ stages {
 					sh 'docker run -d \
 					    --name mongodb \
 					    -p 27017:27017 \
-					    -e MONGO_DATA_DIR=/data/db
-					    -e MONGO_LOG_DIR=/dev/null
-					    -v ./data/db:/data/db
+					    -e MONGO_DATA_DIR=/data/db \
+					    -e MONGO_LOG_DIR=/dev/null \
+					    -v ./data/db:/data/db \
 					    eventuateio/eventuateio-local-zookeeper:0.14.0'
 				}
 			}
