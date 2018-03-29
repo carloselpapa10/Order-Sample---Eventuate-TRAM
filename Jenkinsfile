@@ -7,7 +7,7 @@ stages {
 	stage('Building Projects') {
 		agent any
 		steps {
-			sh 'mvn clean install -e -s settings.xml'
+			sh 'mvn clean install -X -s settings.xml'
 		}
 	}	
 	stage('Dockerize projects') {
