@@ -1,0 +1,20 @@
+docker run -d \
+    --name order-service \
+    -p 5000:8080 \
+    -e SPRING_DATASOURCE_URL=jdbc:mysql://${DOCKER_HOST_IP}/eventuate \
+    -e SPRING_DATASOURCE_USERNAME=mysqluser \
+    -e SPRING_DATASOURCE_PASSWORD=mysqlpw \
+    -e SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver \
+    -e EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=${DOCKER_HOST_IP}:9092 \
+    -e EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=${DOCKER_HOST_IP}:2181  \
+    -e MONGODB=${DOCKER_HOST_IP}:27017/orderdb \
+    carloselpapa10/order-service
+
+mvn clean package
+
+mvn -f customer-service/pom.xml docker:build
+mvn -f invoice-service/pom.xml docker:build
+mvn -f order-service/pom.xml docker:build
+mvn -f order-view-service/ docker:build
+
+docker-compose up
