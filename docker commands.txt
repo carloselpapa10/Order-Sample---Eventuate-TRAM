@@ -18,3 +18,11 @@ mvn -f order-service/pom.xml docker:build
 mvn -f order-view-service/ docker:build
 
 docker-compose up
+
+
+docker run -d \
+    --name zookeeper \
+    -p 2181:2181 \
+    -p 2888:2888 \
+    -p 3888:3888 \
+    eventuateio/eventuateio-local-zookeeper:0.14.0
