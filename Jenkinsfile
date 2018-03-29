@@ -1,15 +1,11 @@
 pipeline {
-	agent{
-		docker {
-		    image 'maven:3-alpine'
-		    args '-v $HOME/.m2:/root/.m2'
-		}
-	}
+	agent none
     
 stages {	
 	stage('Database') {
 		parallel {
 			stage('MySql') {
+				agent any
 				steps {
 					sh 'docker run -d \
 					    --name mongodb \
@@ -21,6 +17,7 @@ stages {
 				}
 			}
 			stage('MongoDB') {
+				agent any
 				steps {
 					sh 'docker run -d \
 					    --name mongodb \
