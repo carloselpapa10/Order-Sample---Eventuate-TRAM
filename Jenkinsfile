@@ -4,18 +4,18 @@ pipeline {
         maven 'maven-3' 
     }
 stages {
-	stage('Service Model') {
-		agent any
-		steps {
-			sh 'mvn clean package -f service-model/pom.xml'
-		}
-	}
 	stage('Aggregate') {
 		agent any
 		steps {
 			sh 'mvn clean package -f eventuate-tram-aggregate-domain-events/pom.xml'
 		}
 	}
+	stage('Service Model') {
+		agent any
+		steps {
+			sh 'mvn clean package -f service-model/pom.xml'
+		}
+	}	
 	stage('Dockerize projects') {
 		parallel {
 			stage('Customer Service') {
