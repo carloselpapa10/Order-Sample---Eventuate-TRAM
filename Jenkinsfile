@@ -5,7 +5,6 @@ pipeline {
         }
 stages {
 	stage('Building Projects') {
-		agent any
 		steps {
 			sh 'mvn clean install -X -s settings.xml'
 		}
