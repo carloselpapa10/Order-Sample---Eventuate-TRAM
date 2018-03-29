@@ -8,8 +8,8 @@
   <packaging>pom</packaging>
 	
   <modules>
-	  <module>service-model</module>
-	  <module>eventuate-tram-aggregate-domain-events</module>
+          <module>eventuate-tram-aggregate-domain-events</module>
+	  <module>service-model</module>	  
 	  <module>customer-service</module>
           <module>invoice-service</module>
 	  <module>order-service</module>
