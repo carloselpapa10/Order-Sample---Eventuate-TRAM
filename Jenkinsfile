@@ -4,16 +4,10 @@ pipeline {
         maven 'maven-3' 
     }
 stages {
-	stage('Aggregate') {
+	stage('Building Projects') {
 		agent any
 		steps {
-			sh 'mvn clean package -f eventuate-tram-aggregate-domain-events/pom.xml'
-		}
-	}
-	stage('Service Model') {
-		agent any
-		steps {
-			sh 'mvn clean package -f service-model/pom.xml'
+			sh 'mvn clean install'
 		}
 	}	
 	stage('Dockerize projects') {
@@ -21,25 +15,25 @@ stages {
 			stage('Customer Service') {
 				agent any
 				steps {
-					sh 'mvn clean package -f customer-service/pom.xml docker:build'
+					sh 'mvn -f customer-service/pom.xml docker:build'
 				}
 			}
 			stage('Invoice Service') {
 				agent any
 				steps {
-					sh 'mvn clean package -f invoice-service/pom.xml docker:build'
+					sh 'mvn -f invoice-service/pom.xml docker:build'
 				}
 			}
 			stage('Order Service') {
 				agent any
 				steps {
-					sh 'mvn clean package -f order-service/pom.xml docker:build'
+					sh 'mvn -f order-service/pom.xml docker:build'
 				}
 			}
 			stage('Order View Service') {
 				agent any
 				steps {
-					sh 'mvn clean package -f order-view-service/ docker:build'
+					sh 'mvn -f order-view-service/ docker:build'
 				}
 			}
 		}
