@@ -13,6 +13,13 @@
 			<url>http://jcenter.bintray.com</url>
 		</repository>
 	</repositories>
+
+        <parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.0.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -30,11 +37,6 @@
 		  <groupId>io.eventuate.tram.core</groupId>
 		  <artifactId>eventuate-tram-events</artifactId>
 		  <version>${eventuateTramVersion}</version>
-		</dependency>
-		<dependency>
-		    <groupId>commons-lang</groupId>
-		    <artifactId>commons-lang</artifactId>
-		    <version>2.6</version>
 		</dependency>
 
 	</dependencies>

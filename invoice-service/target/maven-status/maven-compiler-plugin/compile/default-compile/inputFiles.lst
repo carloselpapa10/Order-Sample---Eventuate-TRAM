@@ -1,0 +1,10 @@
+/home/charlis/Desktop/Microservices/Order-Sample---Eventuate-TRAM/invoice-service/src/main/java/com/mainclass/invoiceservice/model/Invoice.java
+/home/charlis/Desktop/Microservices/Order-Sample---Eventuate-TRAM/invoice-service/src/main/java/com/mainclass/invoiceservice/swagger/SwaggerConfig.java
+/home/charlis/Desktop/Microservices/Order-Sample---Eventuate-TRAM/invoice-service/src/main/java/com/mainclass/invoiceservice/model/InvoiceDomainEventPublisher.java
+/home/charlis/Desktop/Microservices/Order-Sample---Eventuate-TRAM/invoice-service/src/main/java/com/mainclass/invoiceservice/commandhandlers/InvoiceServiceCommandHandlersConfiguration.java
+/home/charlis/Desktop/Microservices/Order-Sample---Eventuate-TRAM/invoice-service/src/main/java/com/mainclass/invoiceservice/service/InvoiceService.java
+/home/charlis/Desktop/Microservices/Order-Sample---Eventuate-TRAM/invoice-service/src/main/java/com/mainclass/invoiceservice/InvoiceServiceApplication.java
+/home/charlis/Desktop/Microservices/Order-Sample---Eventuate-TRAM/invoice-service/src/main/java/com/mainclass/invoiceservice/service/InvoiceServiceConfiguration.java
+/home/charlis/Desktop/Microservices/Order-Sample---Eventuate-TRAM/invoice-service/src/main/java/com/mainclass/invoiceservice/controller/InvoiceController.java
+/home/charlis/Desktop/Microservices/Order-Sample---Eventuate-TRAM/invoice-service/src/main/java/com/mainclass/invoiceservice/model/InvoiceRepository.java
+/home/charlis/Desktop/Microservices/Order-Sample---Eventuate-TRAM/invoice-service/src/main/java/com/mainclass/invoiceservice/commandhandlers/InvoiceServiceCommandHandlers.java
