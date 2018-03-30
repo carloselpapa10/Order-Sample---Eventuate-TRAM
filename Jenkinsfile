@@ -10,4 +10,5 @@ stages {
 			sh'mvn clean install'
 		}
 	}
+	}
 }
