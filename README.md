@@ -9,6 +9,7 @@
 - CQRS
 - Event Sourcing
 - Saga Pattern
+- Jenkins
 
 ### Sample Description
 
@@ -51,26 +52,15 @@ $ public CreateOrderSaga(OrderServiceProxy orderService, CustomerServiceProxy cu
 					.invokeParticipant(orderService.complete, this::makeCompleteOrderCommand)	
 				.build();
 ```
-### Before everything
->Important: You must add the Eventuate JCenter Repository into your maven folder. To do that execute the following command.
-```sh
-$ sudo cp -a setting.xml ~/.m2
-```
 
 ### Building and Running
 
-Main folder - Building
 ```sh
-$ mvn clean package
-$ mvn -f customer-service/pom.xml docker:build
-$ mvn -f invoice-service/pom.xml docker:build
-$ mvn -f order-service/pom.xml docker:build
-$ mvn -f order-view-service/ docker:build
+$ mvn clean package -s settings.xml docker:build
 ```
 
-Main folder - Running
 ```sh
-$ docker-compose up
+$ docker-compose up --abort-on-container-exit
 ```
 ### Swagger UI
 Customer Service. (Create at least one customer)
