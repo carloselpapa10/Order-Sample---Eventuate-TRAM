@@ -14,7 +14,10 @@ stages {
 	}
 	stage('Testing') {
 		agent any
-		
+		steps {
+			//sh 'mvn test'
+			sh 'docker network create my-net'
+		}
 	}
 	stage('Database') {
 		parallel {
@@ -23,6 +26,7 @@ stages {
 				steps {
 					sh 'docker run -d \
 					    --name mysql \
+					    --network=my-net \
 					    -p 3306:3306 \
 					    -e MYSQL_ROOT_PASSWORD=rootpassword \
 					    -e MYSQL_USER=mysqluser \
@@ -35,6 +39,7 @@ stages {
 				steps {
 					sh 'docker run -d \
 					    --name mongodb \
+					    --network=my-net \
 					    -p 27017:27017 \
 					    -e MONGO_DATA_DIR=/data/db \
 					    -e MONGO_LOG_DIR=/dev/null \
@@ -49,6 +54,7 @@ stages {
 			steps {
 				sh 'docker run -d \
 					--name zookeeper \
+					--network=my-net \
 					-p 2181:2181 \
 					-p 2888:2888 \
 					-p 3888:3888 \
@@ -60,6 +66,7 @@ stages {
 			steps {
 				sh 'docker run -d \
 				--name kafka \
+				--network=my-net \
 				-p 9092:9092 \
 				--link zookeeper \
 				-e ADVERTISED_HOST_NAME=${DOCKER_HOST_IP} \
@@ -73,6 +80,7 @@ stages {
 			steps {
 				sh 'docker run -d \
 				--name cdcservice \
+				--network=my-net \
 				-p 8099:8080 \
 				--link mysql \
 				--link kafka \
@@ -96,6 +104,7 @@ stages {
 				steps {
 					sh 'docker run -d \
 					--name customer-service \
+					--network=my-net \
 					-p 5001:8085 \
 					--link mysql \
 					--link kafka \
@@ -117,6 +126,7 @@ stages {
 				steps {
 					sh 'docker run -d \
 					--name order-service \
+					--network=my-net \
 					-p 5000:8080 \
 					--link mysql \
 					--link kafka \
@@ -138,6 +148,7 @@ stages {
 				steps {
 					sh 'docker run -d \
 					--name invoice-service \
+					--network=my-net \
 					-p 5002:8090 \
 					--link mysql \
 					--link kafka \
@@ -159,6 +170,7 @@ stages {
 				steps {
 					sh 'docker run -d \
 					--name order-view-service \
+					--network=my-net \
 					-p 5003:8086 \
 					--link mysql \
 					--link kafka \
