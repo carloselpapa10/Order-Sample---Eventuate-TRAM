@@ -15,6 +15,9 @@ stages {
 	stage('Testing') {
 		agent any
 		steps {
+			def time = 10
+			echo "Waiting ${SLEEP_TIME_IN_SECONDS} seconds for deployment to complete prior starting smoke testing"
+			sleep time.toInteger()
 			//sh 'mvn test'
 			sh 'docker network create my-net'
 		}
