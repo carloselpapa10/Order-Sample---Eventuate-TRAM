@@ -13,7 +13,7 @@ stages {
 				agent any
 				steps {
 					sh 'docker run -d \
-					    --name mongodb \
+					    --name mysql \
 					    -p 3306:3306 \
 					    -e MYSQL_ROOT_PASSWORD=rootpassword \
 					    -e MYSQL_USER=mysqluser \
@@ -29,7 +29,8 @@ stages {
 					    -p 27017:27017 \
 					    -e MONGO_DATA_DIR=/data/db \
 					    -e MONGO_LOG_DIR=/dev/null \
-					    eventuateio/eventuateio-local-zookeeper:0.14.0'
+					    -v /data/db:/data/db \
+					    mongo:3.0.15'
 				}
 			}
 		}
