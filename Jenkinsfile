@@ -51,6 +51,19 @@ stages {
 					eventuateio/eventuateio-local-zookeeper:0.14.0'
 			}
 	}
+	stage('Kafka') {
+			agent any
+			steps {
+				sh 'docker run -d \
+				    --name kafka \
+				    -p 9092:9092 \
+				    --link zookeeper \
+				    -e ADVERTISED_HOST_NAME=${DOCKER_HOST_IP} \
+				    -e KAFKA_HEAP_OPTS=-Xmx320m -Xms320m \
+				    -e ZOOKEEPER_SERVERS=zookeeper:2181 \
+				    eventuateio/eventuateio-local-kafka:0.14.0'
+			}
+	}
 	
   }
 }
