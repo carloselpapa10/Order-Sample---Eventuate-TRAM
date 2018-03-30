@@ -16,4 +16,17 @@
 	  <module>order-view-service</module>	  
   </modules>
 	
+<build>
+		<plugins>
+			<plugin>
+			    <groupId>com.spotify</groupId>
+			    <artifactId>docker-maven-plugin</artifactId>
+			    <version>0.4.13</version>
+			    <configuration>
+				    <skipDockerBuild>true</skipDockerBuild>		  
+		            </configuration>
+			</plugin>
+	        
+		</plugins>
+	</build>
 </project>
