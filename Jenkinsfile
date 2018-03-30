@@ -20,7 +20,7 @@ stages {
 			}
 		}
 		steps{
-			sh'mvn -f pom2.xml docker:build -DskipDocker'
+			sh'mvn -f pom2.xml docker:build'
 		}
 	}
 	
