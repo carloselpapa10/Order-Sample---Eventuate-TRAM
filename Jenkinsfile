@@ -9,7 +9,7 @@ stages {
 			}
 		}
 		steps{
-			sh'mvn clean package -s setting.xml'
+			sh'mvn clean package -s settings.xml'
 		}
 	}
 	}
