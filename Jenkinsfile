@@ -13,14 +13,14 @@ stages {
 		}
 	}
 	stage('Docker Build') {
-		agent{
-			docker {
-			    image 'maven:3-alpine'
-			    args '-v $HOME/.m2:/root/.m2'
-			}
-		}
 		parallel {
 			stage('Customer Service') {
+				agent{
+					docker {
+					    image 'maven:3-alpine'
+					    args '-v $HOME/.m2:/root/.m2'
+					}
+				}
 				steps{
 					sh 'mvn -f customer-service/pom.xml docker:build'
 				}
