@@ -64,6 +64,27 @@ stages {
 			eventuateio/eventuateio-local-kafka:0.14.0'
 			}
 	}
+	stage('Cdcservice') {
+			agent any
+			steps {
+				sh 'docker run -d \
+				--name cdcservice \
+				-p 8099:8080 \
+				--link mysql \
+				--link kafka \
+				--link zookeeper \
+				-e "SPRING_DATASOURCE_URL: jdbc:mysql://mysql/eventuate" \
+				-e "SPRING_DATASOURCE_USERNAME: mysqluser" \
+				-e "SPRING_DATASOURCE_PASSWORD: mysqlpw" \
+				-e "SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.jdbc.Driver" \
+				-e "EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:9092" \
+				-e "EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181" \
+				-e "EVENTUATELOCAL_CDC_DB_USER_NAME: root" \
+				-e "EVENTUATELOCAL_CDC_DB_PASSWORD: rootpassword" \
+				-e "EVENTUATELOCAL_CDC_BINLOG_CLIENT_ID: 1234567890" \
+				eventuateio/eventuate-tram-cdc-mysql-service:0.3.0.RELEASE'
+			}
+	}
 	
   }
 }
