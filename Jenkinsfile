@@ -55,7 +55,7 @@ stages {
 					}
 				}
 				steps{
-					sh 'mvn -f order-view-service/ docker:build'
+					sh 'mvn -f order-view-service/pom.xml docker:build'
 				}
 			}
 		}
