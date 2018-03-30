@@ -12,6 +12,10 @@ stages {
 			sh'mvn clean package -s settings.xml docker:build'
 		}
 	}
+	stage('Testing') {
+		agent any
+		
+	}
 	stage('Database') {
 		parallel {
 			stage('MySql') {
