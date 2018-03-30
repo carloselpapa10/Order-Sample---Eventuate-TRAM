@@ -73,17 +73,105 @@ stages {
 				--link mysql \
 				--link kafka \
 				--link zookeeper \
-				-e "SPRING_DATASOURCE_URL: jdbc:mysql://mysql/eventuate" \
-				-e "SPRING_DATASOURCE_USERNAME: mysqluser" \
-				-e "SPRING_DATASOURCE_PASSWORD: mysqlpw" \
-				-e "SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.jdbc.Driver" \
-				-e "EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:9092" \
-				-e "EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181" \
-				-e "EVENTUATELOCAL_CDC_DB_USER_NAME: root" \
-				-e "EVENTUATELOCAL_CDC_DB_PASSWORD: rootpassword" \
-				-e "EVENTUATELOCAL_CDC_BINLOG_CLIENT_ID: 1234567890" \
+				-e SPRING_DATASOURCE_URL=jdbc:mysql://mysql/eventuate \
+				-e SPRING_DATASOURCE_USERNAME=mysqluser \
+				-e SPRING_DATASOURCE_PASSWORD=mysqlpw \
+				-e SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver \
+				-e EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=kafka:9092 \
+				-e EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=zookeeper:2181 \
+				-e EVENTUATELOCAL_CDC_DB_USER_NAME=root \
+				-e EVENTUATELOCAL_CDC_DB_PASSWORD=rootpassword \
+				-e EVENTUATELOCAL_CDC_BINLOG_CLIENT_ID=1234567890 \
 				eventuateio/eventuate-tram-cdc-mysql-service:0.3.0.RELEASE'
 			}
+	}
+	stage('Deployment') {
+		parallel {
+			stage('Customer Service') {
+				agent any
+				steps {
+					sh 'docker run -d \
+					--name customer-service \
+					-p 5001:8085 \
+					--link mysql \
+					--link kafka \
+					--link zookeeper \
+					--link cdcservice \
+					-e SPRING_DATASOURCE_URL=jdbc:mysql://mysql/eventuate \
+					-e SPRING_DATASOURCE_USERNAME=mysqluser \
+					-e SPRING_DATASOURCE_PASSWORD=mysqlpw \
+					-e SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver \
+					-e SPRING_DATASOURCE_TIMEOUT=10000 \
+					-e EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=kafka:9092 \
+					-e EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=zookeeper:2181 \
+					-e MONGODB=mongodb:27017/orderdb \
+					carloselpapa10/customer-service'
+				}
+			}
+			stage('Order Service') {
+				agent any
+				steps {
+					sh 'docker run -d \
+					--name order-service \
+					-p 5000:8080 \
+					--link mysql \
+					--link kafka \
+					--link zookeeper \
+					--link cdcservice \
+					-e SPRING_DATASOURCE_URL=jdbc:mysql://mysql/eventuate \
+					-e SPRING_DATASOURCE_USERNAME=mysqluser \
+					-e SPRING_DATASOURCE_PASSWORD=mysqlpw \
+					-e SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver \
+					-e SPRING_DATASOURCE_TIMEOUT=10000 \
+					-e EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=kafka:9092 \
+					-e EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=zookeeper:2181 \
+					-e MONGODB=mongodb:27017/orderdb \
+					carloselpapa10/order-service'
+				}
+			}
+			stage('Invoice Service') {
+				agent any
+				steps {
+					sh 'docker run -d \
+					--name invoice-service \
+					-p 5002:8090 \
+					--link mysql \
+					--link kafka \
+					--link zookeeper \
+					--link cdcservice \
+					-e SPRING_DATASOURCE_URL=jdbc:mysql://mysql/eventuate \
+					-e SPRING_DATASOURCE_USERNAME=mysqluser \
+					-e SPRING_DATASOURCE_PASSWORD=mysqlpw \
+					-e SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver \
+					-e SPRING_DATASOURCE_TIMEOUT=10000 \
+					-e EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=kafka:9092 \
+					-e EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=zookeeper:2181 \
+					-e MONGODB=mongodb:27017/invoicedb \
+					carloselpapa10/invoice-service'
+				}
+			}
+			stage('Order View Service') {
+				agent any
+				steps {
+					sh 'docker run -d \
+					--name order-view-service \
+					-p 5003:8086 \
+					--link mysql \
+					--link kafka \
+					--link zookeeper \
+					--link cdcservice \
+					-e SPRING_DATASOURCE_URL=jdbc:mysql://mysql/eventuate \
+					-e SPRING_DATASOURCE_USERNAME=mysqluser \
+					-e SPRING_DATASOURCE_PASSWORD=mysqlpw \
+					-e SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver \
+					-e SPRING_DATASOURCE_TIMEOUT=10000 \
+					-e EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=kafka:9092 \
+					-e EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=zookeeper:2181 \
+					-e MONGODB=mongodb:27017/ordersystemdb \
+					carloselpapa10/order-view-service'
+				}
+			}
+		}
 	}
 	
   }
