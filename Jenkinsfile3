@@ -19,6 +19,18 @@ stages {
 			sh 'docker rm zookeeper --force'
 		}
 	}
+	stage('Remove Mongodb') {
+		agent any
+		steps {
+			sh 'docker rm mongodb --force'
+		}
+	}
+	stage('Remove Mysql') {
+		agent any
+		steps {
+			sh 'docker rm mysql --force'
+		}
+	}
 	stage('Remove Network') {
 		agent any
 		steps {
