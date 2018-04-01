@@ -1,6 +1,12 @@
 pipeline {
 	agent none    
 stages {
+	stage('Docker Network') {
+		agent any
+		steps {
+			sh 'docker network create my-net'
+		}
+	}
 	stage('Database') {
 		parallel {
 			stage('MySql') {
